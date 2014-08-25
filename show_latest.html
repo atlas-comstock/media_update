@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-Ua-Compatible" content="IE=EmulateIE7" />
+        <meta name="keywords" content="動漫更新提醒" />
+<meta name="description" content="欢迎使用動漫更新提醒" />
+<meta name="language" content="zh" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>动漫更新提醒</title>
+ 
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<script src="myScript.js"></script>
+<style>
+h1 {color:#000; text-shadow:1px 1px 1px white;}
+.ui-btn-inner{ padding: 11px 11px ; position:fixed left}
+</style>
+</head>
+
+<div data-role="page">
+  <div data-role="header" data-theme="c">
+	 <a href="http://www.jejeso.com/chris/show_all.php" data-role="button" data-icon="home">首页</a>
+   <h1>動漫更新提醒</h1>
+    <a href="#myPopup" data-rel="popup" data-role="button"  data-icon="search">搜索動漫</a>
+  </div>
+      <div data-role="popup" id="myPopup" class="ui-content">
+      <a href="#" data-rel="back" data-icon="delete" class="ui-corner-all ui-shadow ui-btn ui-icon-delete ui-btn-icon-notext ui-btn-left"></a>
+     <table><tr>
+	 <td><input id="input_search" value=""  onkeyup="showHint(this.value)" placeholder="请输入要查找的動漫"></td>
+	 <td><input id="search"type="button" value="搜索" data-inline="true"></td>
+	 </tr></table>
+	 <p>建议：<span id="txtHint"></span></p> 
+    </div>
+      <div data-role="navbar" data-theme="c">
+    <ul>
+      <li><a href="http://www.jejeso.com/chris/show_latest.php" class="ui-btn-active ui-state-persist">最新</a></li>
+      <li><a href="http://www.jejeso.com/chris/hot.php" class="ui-btn-active ui-state-persist">人氣</a></li>
+      <li><a href="http://www.jejeso.com/chris/my_follow.php" class="ui-btn-active ui-state-persist">关注</a></li>
+    </ul>
+  </div>
+
+  <div data-role="content" data-theme="c">
+     <div data-role="fieldcontain" data-theme="c" >
+	   <ul data-role="listview" >{foreach from="$media" item="single_media"}
+      <li ><a href="{$single_media.video_url}" data-transition="slide">{$single_media.rawtext}</a><input type="button" value="关注" data-icon="plus"data-inline="true" id="{$single_media.video_id}" onclick="httpGet('follow.php?title_id={$single_media.title_id}')"></li>{/foreach}
+    </ul>
+  </div>
+
+ <script type="text/javascript">
+
+ {foreach from="$media" item="single_media"}
+     $("#{$single_media.video_id}").click(function(){  
+  $("#{$single_media.video_id}").prev('span').find('span.ui-btn-text').text("已关注");
+  $(this).addClass('ui-disabled');
+});  {/foreach}
+
+ $("#search").click(function(){
+	 var temp = $('#input_search').val();
+	 var url = 'search.php?title_name='+temp;
+	 SearchGet(url);
+});
+
+</script> 
+ 
+</body>
+</html>
+
+ 
